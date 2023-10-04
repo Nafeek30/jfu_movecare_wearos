@@ -4,6 +4,8 @@ import 'package:jfu_movecare_wearos/views/LoginScreen.dart';
 import 'package:sensors_plus/sensors_plus.dart';
 
 class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
   @override
   HomeScreenState createState() => HomeScreenState();
 }
@@ -128,7 +130,7 @@ class HomeScreenState extends State<HomeScreen> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => LoginScreen(),
+          builder: (context) => const LoginScreen(),
         ),
       );
     });
