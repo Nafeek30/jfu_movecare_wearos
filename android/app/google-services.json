@@ -1,0 +1,118 @@
+{
+  "project_info": {
+    "project_number": "385823386583",
+    "project_id": "jfu-movecare",
+    "storage_bucket": "jfu-movecare.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:385823386583:android:8c522f1dc709a84ae1b992",
+        "android_client_info": {
+          "package_name": "com.example.jfu_movecare_wearos"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "385823386583-dfr29vjt3rcd6noi4f4l81c718irm6pd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDEL5PEVoegsZ_H9zPVnVU8peHPlmcdQBs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "385823386583-dfr29vjt3rcd6noi4f4l81c718irm6pd.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "385823386583-6s03j5iga5lr160sltt17ed2gpr484h6.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.gmail.movecare.jfu.movecare.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:385823386583:android:9a807e7f2aa6779be1b992",
+        "android_client_info": {
+          "package_name": "com.gmail.movecare.jfu"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "385823386583-dfr29vjt3rcd6noi4f4l81c718irm6pd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDEL5PEVoegsZ_H9zPVnVU8peHPlmcdQBs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "385823386583-dfr29vjt3rcd6noi4f4l81c718irm6pd.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "385823386583-6s03j5iga5lr160sltt17ed2gpr484h6.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.gmail.movecare.jfu.movecare.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:385823386583:android:74d3a16e7aebf3e9e1b992",
+        "android_client_info": {
+          "package_name": "com.gmail.movecare.jfu.movecare"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "385823386583-dfr29vjt3rcd6noi4f4l81c718irm6pd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDEL5PEVoegsZ_H9zPVnVU8peHPlmcdQBs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "385823386583-dfr29vjt3rcd6noi4f4l81c718irm6pd.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "385823386583-6s03j5iga5lr160sltt17ed2gpr484h6.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.gmail.movecare.jfu.movecare.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
