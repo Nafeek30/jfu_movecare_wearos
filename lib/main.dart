@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jfu_movecare_wearos/views/HomeScreen.dart';
 import 'package:jfu_movecare_wearos/views/LoginScreen.dart';
-// import 'package:wear/wear.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
