@@ -2,13 +2,12 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:jfu_movecare_wearos/views/LoginScreen.dart';
+import 'package:jfu_movecare_wearos/controller/AuthController.dart';
+import 'package:jfu_movecare_wearos/controller/StorageController.dart';
+import 'package:jfu_movecare_wearos/controller/UtilityController.dart';
 import 'package:sensors_plus/sensors_plus.dart';
 import 'package:stream_transform/stream_transform.dart';
-import 'package:csv/csv.dart';
-import 'package:path_provider/path_provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -110,7 +109,7 @@ class HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   onPressed: () {
-                    logout();
+                    AuthController().logout(context);
                   },
                 ),
               ],
@@ -121,25 +120,7 @@ class HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Future<void> getFrequency() async {
-    FirebaseFirestore.instance
-        .collection("user_collection")
-        .where('email', isEqualTo: FirebaseAuth.instance.currentUser!.email)
-        .get()
-        .then((snapshots) {
-      setState(() {
-        if (snapshots.docs[0].data()['sampleRate'] == 'Low') {
-          dataCollectionFrequency = 1000;
-        } else if (snapshots.docs[0].data()['sampleRate'] == 'Medium') {
-          dataCollectionFrequency = 5000;
-        } else if (snapshots.docs[0].data()['sampleRate'] == 'High') {
-          dataCollectionFrequency = 10000;
-        }
-      });
-      getData();
-    });
-  }
-
+  /// Gets the data of the accelerometer and gyroscope every [dataCollectionFrequency] time period
   void getData() {
     accelerometerEvents
         .throttle(Duration(milliseconds: dataCollectionFrequency))
@@ -154,7 +135,7 @@ class HomeScreenState extends State<HomeScreen> {
             'aZ': event.z,
           });
         }
-        // print(DateTime.now().millisecondsSinceEpoch);
+        print(DateTime.now().millisecondsSinceEpoch);
         aX = event.x;
         aY = event.y;
         aZ = event.z;
@@ -182,6 +163,28 @@ class HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  /// Get the frequency saved on Firestore and then invoke [getData] method
+  Future<void> getFrequency() async {
+    FirebaseFirestore.instance
+        .collection("user_collection")
+        .where('email', isEqualTo: FirebaseAuth.instance.currentUser!.email)
+        .get()
+        .then((snapshots) {
+      setState(() {
+        if (snapshots.docs[0].data()['sampleRate'] == 'Low') {
+          dataCollectionFrequency = 1000;
+        } else if (snapshots.docs[0].data()['sampleRate'] == 'Medium') {
+          dataCollectionFrequency = 5000;
+        } else if (snapshots.docs[0].data()['sampleRate'] == 'High') {
+          dataCollectionFrequency = 10000;
+        }
+      });
+      getData();
+    });
+  }
+
+  /// Save the collected data to Firestore by first creating a CSV file using the [createCSVFile] method and then
+  /// call the [uploadToFirebaseStorage] method to store the csv file on Firebase Storage.
   Future<void> saveData() async {
     List<List> finalList = [];
     String filename = '';
@@ -205,56 +208,9 @@ class HomeScreenState extends State<HomeScreen> {
     }
 
     // Create a CSV file from data
-    File file = await createCSVFile(finalList, filename);
+    File file = await UtilityController().createCSVFile(finalList, filename);
 
     // Upload the file to Firebase
-    await uploadToFirebaseStorage(file, filename);
-  }
-
-  Future<File> createCSVFile(List<List<dynamic>> rows, String filename) async {
-    // Convert our data to CSV string
-    String csv = const ListToCsvConverter().convert(rows);
-
-    // Save the CSV data to a file
-    final String dir = (await getApplicationDocumentsDirectory()).path;
-    final String path = '$dir/$filename.csv';
-    final File file = File(path);
-    await file.writeAsString(csv);
-
-    return file;
-  }
-
-  Future<void> uploadToFirebaseStorage(File file, String filename) async {
-    try {
-      // Reference to the folder 'telemetry'
-      var reference = FirebaseStorage.instance.ref().child(
-          '${FirebaseAuth.instance.currentUser!.uid}/telemetry/$filename.csv');
-
-      // Upload the file to Firebase Storage with metadata
-      SettableMetadata metadata = SettableMetadata(
-        contentType: 'text/csv',
-      );
-
-      // Upload the file to Firebase Storage
-      await reference.putFile(file, metadata);
-
-      // If upload task was successful, print the download link
-      final String downloadUrl = await reference.getDownloadURL();
-      print("Upload successful: $downloadUrl");
-    } catch (e) {
-      // e.g, e.code == 'canceled'
-      print("Upload failed: $e");
-    }
-  }
-
-  Future<void> logout() async {
-    await FirebaseAuth.instance.signOut().then((value) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const LoginScreen(),
-        ),
-      );
-    });
+    await StorageController().uploadToFirebaseStorage(file, filename);
   }
 }

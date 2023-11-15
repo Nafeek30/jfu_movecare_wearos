@@ -1,7 +1,5 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:jfu_movecare_wearos/views/HomeScreen.dart';
+import 'package:jfu_movecare_wearos/controller/AuthController.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -13,7 +11,6 @@ class LoginScreen extends StatefulWidget {
 class LoginScreenState extends State<LoginScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  final FirebaseAuth auth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -111,7 +108,8 @@ class LoginScreenState extends State<LoginScreen> {
               ElevatedButton(
                 child: const Text('Login'),
                 onPressed: () {
-                  login();
+                  AuthController().login(
+                      context, emailController.text, passwordController.text);
                 },
               ),
             ],
@@ -119,26 +117,5 @@ class LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
-  }
-
-  void login() async {
-    try {
-      await auth
-          .signInWithEmailAndPassword(
-              email: emailController.text, password: passwordController.text)
-          .then((value) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => HomeScreen(),
-          ),
-        );
-      });
-    } catch (error) {
-      Fluttertoast.showToast(
-          msg: error.toString(),
-          backgroundColor: Colors.red,
-          textColor: Colors.white);
-    }
   }
 }
